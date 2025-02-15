@@ -1,6 +1,6 @@
 <template>
   <nav class="fixed top-0 z-30 w-full bg-white border-b border-gray-200 dark:bg-[#111827] dark:border-gray-700/50">
-    <div class="px-3 py-3 lg:px-5 lg:pl-3 mr-12">
+    <div class="px-3 py-3 lg:px-5 lg:pl-3 mr-[140px]">
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-start">
           <button

@@ -1,64 +1,66 @@
 <template>
-  <aside
-    @click.self="closeSubMenu"
-    :class="[
-      isOpen ? 'ml-0' : '-ml-20',
-      'fixed top-[64px] left-0 z-20 flex flex-col h-full w-20 bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-[margin] ease-in-out duration-500',
-    ]"
-    aria-label="Sidebar"
-  >
-    <div class="flex-1 flex flex-col pt-1 pb-4 overflow-y-auto">
-      <nav class="mt-8 flex-1 space-y-2 px-2" aria-label="Sidebar">
-        <div v-for="item in navigation" :key="item.name">
-          <!-- Items sin submenu -->
-          <router-link
-            v-if="!item.children"
-            :to="item.href"
-            :class="[
-              isActive(item.href) ? 'bg-gray-100 dark:bg-[#1C2A3F] text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-[#1C2A3F] dark:hover:text-white',
-              'group flex flex-col items-center py-3 px-2 text-sm font-medium rounded-lg transition-colors duration-150',
-            ]"
-            @click="closeSubMenu"
-          >
-            <component :is="item.icon" class="h-6 w-6 mb-1" />
-            <span class="text-xs">{{ item.name }}</span>
-          </router-link>
-          <!-- Item con submenu -->
-          <div v-else class="group">
-            <button
-              @click="
-                () => {
-                  console.log('Button clicked for:', item.name);
-                  toggleSubMenu(item);
-                }
-              "
+  <transition name="slide">
+    <aside
+      v-if="isOpen"
+      :class="[
+        'fixed top-0 left-0 z-40 flex flex-col h-full w-20 bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-all duration-500 ease-in-out',
+        isClosed ? 'sidebar-closed' : '',
+      ]"
+      aria-label="Sidebar"
+    >
+      <div class="flex-1 flex flex-col pt-1 pb-4 overflow-y-auto">
+        <nav class="mt-8 flex-1 space-y-2 px-2" aria-label="Sidebar">
+          <div v-for="item in navigation" :key="item.name">
+            <!-- Items sin submenu -->
+            <router-link
+              v-if="!item.children"
+              :to="item.href"
               :class="[
-                item.open ? 'bg-gray-100 dark:bg-[#1C2A3F] text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-[#1C2A3F] dark:hover:text-white',
-                'flex flex-col items-center py-3 px-2 text-sm font-medium rounded-lg transition-colors duration-150 w-full',
+                isActive(item.href) ? 'bg-gray-100 dark:bg-[#1C2A3F] text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-[#1C2A3F] dark:hover:text-white',
+                'group flex flex-col items-center py-3 px-2 text-sm font-medium rounded-lg transition-colors duration-150',
               ]"
+              @click="closeSubMenu"
             >
               <component :is="item.icon" class="h-6 w-6 mb-1" />
               <span class="text-xs">{{ item.name }}</span>
-            </button>
+            </router-link>
+            <!-- Item con submenu -->
+            <div v-else class="group">
+              <button
+                @click="
+                  () => {
+                    console.log('Button clicked for:', item.name);
+                    toggleSubMenu(item);
+                  }
+                "
+                :class="[
+                  item.open ? 'bg-gray-100 dark:bg-[#1C2A3F] text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-[#1C2A3F] dark:hover:text-white',
+                  'flex flex-col items-center py-3 px-2 text-sm font-medium rounded-lg transition-colors duration-150 w-full',
+                ]"
+              >
+                <component :is="item.icon" class="h-6 w-6 mb-1" />
+                <span class="text-xs">{{ item.name }}</span>
+              </button>
+            </div>
           </div>
-        </div>
-      </nav>
-    </div>
-    <div class="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-2">
-      <button
-        @click="toggleDarkMode"
-        class="w-full flex flex-col items-center p-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1C2A3F] rounded-lg transition-colors duration-150"
-      >
-        <MoonIcon v-if="isDarkMode" class="h-6 w-6 mb-1 text-gray-400 dark:text-gray-500" />
-        <SunIcon v-else class="h-6 w-6 mb-1 text-gray-400" />
-        <span class="text-xs">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
-      </button>
-    </div>
-  </aside>
+        </nav>
+      </div>
+      <div class="flex-shrink-0 flex border-t border-gray-200 dark:border-gray-800 p-2">
+        <button
+          @click="toggleDarkMode"
+          class="w-full flex flex-col items-center p-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-[#1C2A3F] rounded-lg transition-colors duration-150"
+        >
+          <MoonIcon v-if="isDarkMode" class="h-6 w-6 mb-1 text-gray-400 dark:text-gray-500" />
+          <SunIcon v-else class="h-6 w-6 mb-1 text-gray-400" />
+          <span class="text-xs">{{ isDarkMode ? 'Dark' : 'Light' }}</span>
+        </button>
+      </div>
+    </aside>
+  </transition>
 
   <!-- Drawer del submenu -->
   <transition name="slide">
-    <div v-if="openSubmenu" class="fixed top-[64px] left-20 z-10 w-48 h-full bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-transform duration-300">
+    <div v-if="openSubmenu && isOpen" class="fixed top-[64px] left-20 z-10 w-48 h-full bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-transform duration-300">
       <div class="p-4 space-y-2">
         <router-link
           v-for="child in openSubmenu.children"
@@ -66,10 +68,11 @@
           :to="child.href"
           :class="[
             isActive(child.href) ? 'bg-gray-100 dark:bg-[#1C2A3F] text-gray-900 dark:text-white' : 'text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-[#1C2A3F] dark:hover:text-white',
-            'block rounded-lg p-2 transition-colors duration-150',
+            'block rounded-lg p-2 transition-colors duration-150 flex items-center gap-2 text-sm font-medium',
           ]"
           @click="closeSubMenu"
         >
+          <component :is="child.icon" class="h-5 w-5" />
           {{ child.name }}
         </router-link>
       </div>
@@ -81,7 +84,7 @@
 import {computed, ref} from 'vue';
 import {useRoute} from 'vue-router';
 import {useDarkMode} from '@/composables/useDarkMode';
-import {HomeIcon, UserCircleIcon, ChartBarIcon, DocumentIcon, Cog6ToothIcon, SunIcon, MoonIcon} from '@heroicons/vue/24/outline';
+import {HomeIcon, UserCircleIcon, ChartBarIcon, DocumentIcon, Cog6ToothIcon, SunIcon, MoonIcon, BuildingOfficeIcon, UserGroupIcon, DocumentTextIcon} from '@heroicons/vue/24/outline';
 
 const navigation = [
   {name: 'Home', href: '/', icon: HomeIcon},
@@ -94,9 +97,9 @@ const navigation = [
     icon: HomeIcon,
     open: false,
     children: [
-      {name: 'Properties', href: '/applications/properties'},
-      {name: 'Contacts', href: '/applications/contacts'},
-      {name: 'Contracts', href: '/applications/contracts'},
+      {name: 'Properties', href: '/applications/properties', icon: BuildingOfficeIcon},
+      {name: 'Contacts', href: '/applications/contacts', icon: UserGroupIcon},
+      {name: 'Contracts', href: '/applications/contracts', icon: DocumentTextIcon},
     ],
   },
 ];
@@ -137,6 +140,12 @@ const props = defineProps({
     required: true,
   },
 });
+
+const isClosed = ref(false);
+
+const toggleSidebar = () => {
+  isClosed.value = !isClosed.value;
+};
 </script>
 
 <style scoped>
@@ -148,4 +157,8 @@ const props = defineProps({
 .slide-leave-to {
   transform: translateX(-100%);
 }
+
+/* .sidebar-closed { */
+/* Estilos para el sidebar cerrado */
+/* } */
 </style>

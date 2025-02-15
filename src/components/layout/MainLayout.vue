@@ -1,30 +1,30 @@
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-[#0B1121] flex">
-    <div class="flex-1 flex flex-col transition-[margin] ease-in-out duration-500 mr-12">
-      <TopNav @toggle-sidebar="toggleSidebar" />
-      <Sidebar :is-open="isSidebarOpen" />
-      <main class="pt-16 flex-1">
-        <Container>
-          <Breadcrumb />
-          <router-view />
-        </Container>
+    <Sidebar :isOpen="isSidebarOpen" />
+    <div :class="[isSidebarOpen ? 'ml-20' : 'ml-0', 'mr-16 flex-1 transition-all duration-500 ease-in-out']">
+      <TopNav :isSidebarOpen="isSidebarOpen" @toggle-sidebar="toggleSidebar" />
+      <main class="pt-16">
+        <router-view />
       </main>
     </div>
-    <ChatDrawer />
+    <ChatDrawer :isOpen="isChatOpen" />
   </div>
 </template>
 
 <script setup>
 import {ref} from 'vue';
-import TopNav from './TopNav.vue';
 import Sidebar from './Sidebar.vue';
+import TopNav from './TopNav.vue';
 import ChatDrawer from './ChatDrawer.vue';
-import Container from './Container.vue';
-import Breadcrumb from './Breadcrumb.vue';
 
 const isSidebarOpen = ref(true);
+const isChatOpen = ref(true);
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
+};
+
+const toggleChat = () => {
+  isChatOpen.value = !isChatOpen.value;
 };
 </script>
