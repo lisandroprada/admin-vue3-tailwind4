@@ -3,7 +3,7 @@
     <aside
       v-if="isOpen"
       :class="[
-        'fixed top-0 left-0 z-40 flex flex-col h-full w-20 bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-all duration-500 ease-in-out',
+        'fixed top-0 pt-[40px] left-0 z-20 flex flex-col h-full w-20 bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-all duration-200 ease-in-out',
         isClosed ? 'sidebar-closed' : '',
       ]"
       aria-label="Sidebar"
@@ -60,7 +60,7 @@
 
   <!-- Drawer del submenu -->
   <transition name="slide">
-    <div v-if="openSubmenu && isOpen" class="fixed top-[64px] left-20 z-10 w-48 h-full bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-transform duration-300">
+    <div v-if="openSubmenu && isOpen" class="fixed top-[64px] left-20 z-10 w-48 h-full bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-transform duration-200">
       <div class="p-4 space-y-2">
         <router-link
           v-for="child in openSubmenu.children"
@@ -151,14 +151,10 @@ const toggleSidebar = () => {
 <style scoped>
 .slide-enter-active,
 .slide-leave-active {
-  transition: transform 0.3s;
+  transition: transform 0.2s ease-in-out;
 }
 .slide-enter-from,
 .slide-leave-to {
   transform: translateX(-100%);
 }
-
-/* .sidebar-closed { */
-/* Estilos para el sidebar cerrado */
-/* } */
 </style>

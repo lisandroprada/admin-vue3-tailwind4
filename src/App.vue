@@ -2,10 +2,8 @@
 </script>
 
 <template>
-
-  <router-view></router-view>
+  <router-view class="relative z-10"></router-view>
 </template>
 
 <style scoped>
-
 </style>
