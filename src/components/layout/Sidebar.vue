@@ -3,7 +3,7 @@
     <aside
       v-if="isOpen"
       :class="[
-        'fixed top-0 pt-[40px] left-0 z-20 flex flex-col h-full w-20 bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-all duration-200 ease-in-out',
+        'fixed top-0 pt-[40px] left-0 z-20 flex flex-col h-full w-20 bg-white dark:bg-[#111827] border-r border-gray-200 dark:border-gray-800 transition-all duration-200 ease-in-out shadow',
         isClosed ? 'sidebar-closed' : '',
       ]"
       aria-label="Sidebar"

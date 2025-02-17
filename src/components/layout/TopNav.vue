@@ -1,6 +1,6 @@
 <template>
   <div class="fixed top-0 right-[80px] left-0 z-30">
-    <nav class="w-full bg-white border-b border-gray-200 dark:bg-[#111827] dark:border-gray-700/50">
+    <nav class="w-full bg-white border-b border-gray-200 dark:bg-[#111827] dark:border-gray-700/50 shadow dark:shadow-none">
       <div class="px-3 py-2.5">
         <div class="flex items-center justify-between">
           <!-- Left section -->
@@ -13,6 +13,7 @@
                 <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
               </svg>
             </button>
+            <img src="@/assets/isotipo-propietas.png" alt="Propietas Logo" class="h-6 w-auto" />
             <span class="text-lg font-semibold text-gray-900 dark:text-white">Dashboard</span>
           </div>
 
